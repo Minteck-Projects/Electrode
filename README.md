@@ -4,7 +4,7 @@ Electrode is a NodeJS webserver with a PHP subsystem. Electrode can serve static
 
 Electrode is meant to be fast, reliable and unattended (it will automatically update an installed software when needed). Electrode is made to be used with FNS Neutron, but can also (but not recommended to) be used with other software.
 
-> Electrode and Neutron can only work on Linux servers. To use it on Windows servers, please use WSL 2 and follow instructions in [Windows Setup](#Windows_Setup)
+> Electrode and Neutron can only work on Linux servers. To use it on Windows servers, please use WSL 2 and follow instructions in [Windows Setup](#windows-setup)
 
 ## Getting started
 The first time you need to run Electrode, you'll need to compile some dependencies:
@@ -45,4 +45,4 @@ As said earlier, Electrode and Neutron can't run on Windows servers. If you want
 >
 > ```sudo apt install php php-xdebug nodejs npm make build-essential```
 3. Download and extract Electrode on your WSL
-4. Follow the instructions in [Getting started](#Getting_started)
+4. Follow the instructions in [Getting started](#getting-started)
