@@ -40,9 +40,9 @@ As said earlier, Electrode and Neutron can't run on Windows servers. If you want
 
 1. First, [install WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) by following the Microsoft documentation
 > Don't miss the part about upgrading to WSL 2, it is VERY important
-2. Install `php` (version 7.4 or later), `php-xdebug`, `php-gd`, `nodejs` (version 12 or later), `npm`, `make` and `cmake`.
+2. Install `php` (version 7.4 or later), `php-xdebug`, `php-gd`, `nodejs` (version 12 or later), `npm`, `make`, `cmake`, `wget` and `zip`.
 > On Debian or Ubuntu, you would install with
 >
-> ```sudo apt install php php-xdebug php-gd nodejs npm make cmake build-essential```
+> ```sudo apt install php php-xdebug php-gd nodejs npm make cmake build-essential wget zip```
 3. Download and extract Electrode on your WSL
 4. Follow the instructions in [Getting started](#getting-started)
