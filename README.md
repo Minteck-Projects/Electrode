@@ -1,48 +1,32 @@
-# FNS Electrode, a NodeJS webserver for PHP applications
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/46352972/116787979-7ee30680-aaa7-11eb-8a86-2b3829574dab.png" width="64px" /><br>
+  <big>»<b> FNS Electrode </b>«</big>
+  <br>developed with<br>
+  <img src="https://user-images.githubusercontent.com/46352972/116787437-47268f80-aaa4-11eb-99c9-a771eb7dadcc.png" width="48px">
+</p>
 
-Electrode is a NodeJS webserver with a PHP subsystem. Electrode can serve static files as fast as possible, and run on-demand PHP scripts.
+----
 
-Electrode is meant to be fast, reliable and unattended (it will automatically update an installed software when needed). Electrode is made to be used with FNS Neutron, but can also (but not recommended to) be used with other software.
+A fast and powerful NodeJS web server for FNS Neutron.
 
-> Electrode and Neutron can only work on Linux servers. To use it on Windows servers, please use WSL 2 and follow instructions in [Windows Setup](#windows-setup)
+* **Status:** 💻 Actively maintained
+<!-- * **Status:** 🕑 Extended maintenance -->
+<!-- * **Status:** 🔴 Searching for mainteners -->
+<!-- * **Status:** 🚫 Archived, **DO NOT USE IN PRODUCTION** -->
 
-## Getting started
-The first time you need to run Electrode, you'll need to compile some dependencies:
-```plaintext
-npm rebuild
-```
+## Summary
+* **Language:** JavaScript
+* **Started:** December 2020
+* **License:** GNU General Public License 3.0
+* **Website:** https://mpcms.rf.gd
 
-When you compiled the dependencies, you can start Electrode using NPM:
-```plaintext
-npm start
-```
+## Setup
+* Install `nodejs`, `npm`, `make`, `cmake`, `wget`, `zip`, `php`, `php-xdebug`, `php-gd`
+* Clone the repository
+* Install everything: `npm install`
+* Set the listen port in the `/config/network.json` file
+* Start: `npm start`
+* Open your web browser to the port specified in the config
 
-... or using NodeJS
-```plaintext
-node index.js
-```
-
-Electrode will start in threaded mode (one thread per CPU core) for optimal performance.
-
-> **Important :** There's a `cache` folder, **NEVER DELETE ITS CONTENT** or it will break PHP scripts. Files in the `cache` folder are automatically deleted by Electrode.
-
-## Requirements
-* NodeJS 12 or newer
-* PHP 7.4 or newer
-* The `xdebug` extension (used to get the response headers from PHP)
-* `make` and all development libraries
-* The NPM package manager
-
-## Windows Setup
-As said earlier, Electrode and Neutron can't run on Windows servers. If you want to use a Windows server, you can use WSL.
-
-> Before continuing, please note that using a Windows server in a production environement is really discouraged, as Neutron asn't been extensively tested through WSL.
-
-1. First, [install WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) by following the Microsoft documentation
-> Don't miss the part about upgrading to WSL 2, it is VERY important
-2. Install `php` (version 7.4 or later), `php-xdebug`, `php-gd`, `nodejs` (version 12 or later), `npm`, `make`, `cmake`, `wget` and `zip`.
-> On Debian or Ubuntu, you would install with
->
-> ```sudo apt install php php-xdebug php-gd nodejs npm make cmake build-essential wget zip```
-3. Download and extract Electrode on your WSL
-4. Follow the instructions in [Getting started](#getting-started)
+## Issues
+Issues are reported either on [Minteck Projects' bug tracker](https://mpbugger.alwaysdata.net) or using GitHub issues.
