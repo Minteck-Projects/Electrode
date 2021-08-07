@@ -65,7 +65,6 @@ else
 fi
 
 echo "updater: Updating version..."
-date +%Y%m%d-#-electrode > ./public/api/version
 code=$?
 if [[ $code -eq 0 ]]; then
     echo "updater: Success"

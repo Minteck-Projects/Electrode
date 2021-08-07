@@ -17,9 +17,11 @@ module.exports = (req, res, file, post, files) => {
     fid = "PHP_" + cid;
     parsed = url.parse(req.url, true);
 
-    content = "<?php\n\n$_PHPID = \"" + cid + "\";\nrequire \"headers.php\";\n\n"
-    + "\n$oldsrv = $_SERVER; $_SERVER = [];";
-    + "\n$__electrode_version = \"" + version + "\"";
+    content = "<?php\n\nset_include_path(\"" + publicDir + "\" . PATH_SEPARATOR . get_include_path());\n$_PHPID = \"" + cid + "\";\nrequire \"headers.php\";\n\n"
+    + "\nregister_shutdown_function(\"__electrode_end_hooks\");"
+    + "\n$oldsrv = $_SERVER; $_SERVER = [];"
+    + "\n$__electrode_version = \"" + version + "\";"
+    + "\n$__electrode_node_version = \"" + process.versions.node + "\";";
     content = addPhpServerVariable(content, "PHP_SELF", path.resolve(file));
     content = addPhpServerVariable(content, "GATEWAY_INTERFACE", "CGI/1.1");
     content = addPhpServerVariable(content, "SERVER_ADDR", Object.values(require('os').networkInterfaces()).reduce((r, list) => r.concat(list.reduce((rr, i) => rr.concat(i.family==='IPv4' && !i.internal && i.address || []), [])), [])[0]);
@@ -65,6 +67,8 @@ module.exports = (req, res, file, post, files) => {
     content = content + "\n$_FILES = [];";
     content = content + "\n$_POST = [];";
     content = content + "\n$_GET = [];";
+    content = content + "\n$GLOBALS = [];";
+    content = content + "\n$GLOBALS[\"SYSTEM_ROOT\"] = \"\";";
     Object.keys(parsed.query).forEach((key) => {
         content = content + "\n$_GET[\"" + key.split("\"").join("\\\"").split("$").join("\\\$") + "\"] = \"" + parsed.query[key].split("\"").join("\\\"").split("$").join("\\\$") + "\";"
     })
@@ -80,11 +84,19 @@ module.exports = (req, res, file, post, files) => {
     Object.keys(cookies).forEach((key) => {
         content = content + "\n$_COOKIE[\"" + key.split("\"").join("\\\"").split("$").join("\\\$") + "\"] = \"" + cookies[key].split("\"").join("\\\"").split("$").join("\\\$") + "\";"
     })
-    content = content + "\nrequire_once \"" + file.split("\"").join("\\\"") + "\";\n\n__electrode_end_hooks();";
+
+    p = "./public"
+
+    regex = /require_once\(["'`].*resources\/private\/relative\.php["'`]\);/gm;
+    regex2 = /require_once ["'`].*resources\/private\/relative\.php["'`];/gm;
+
+    fs.writeFileSync(file + ".ELECTRODECACHE~.php", fs.readFileSync(file).toString().replace(regex, "").replace(regex2, ""));
+    content = content + "\nchdir(\"" + p + "\");\nfunction getRelativeDetails() {};\nrequire_once \"." + file.split("\"").join("\\\"").substr(8) + ".ELECTRODECACHE~.php" + "\";\n\n__electrode_end_hooks();";
 
     fs.writeFileSync("./cache/" + fid + ".php", content);
     return [
         "./cache/" + fid + ".php",
-        cid
+        cid,
+        file + ".ELECTRODECACHE~.php"
     ];
 }

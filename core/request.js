@@ -1,10 +1,11 @@
 const chalk = require('chalk');
-const mime = require('mime');
-const FileType = require('file-type');
+const mime = require('mime-types');
+const path = require('path');
 
 module.exports = (req, res, post, files) => {
     try {
         res.setHeader("X-Electrode-WorkerID", cluster.worker.id)
+        res.setHeader("Server", "Electrode/" + version + " (" + require('os').type() + ")")
         res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.setHeader('Expires', '-1');
 	res.setHeader('Pragma', 'no-cache');
@@ -12,7 +13,7 @@ module.exports = (req, res, post, files) => {
             console.log(chalk.gray(cluster.worker.id + " ") + chalk.blue("warn:") + " working around exploit");
             res.writeHead(301, { 'Location': '/index.php' }); 
             res.end();
-        } else if (req.url.trim() == '/' || req.url.trim() == '//' || req.url.trim() == '') {
+        } else if (req.url.trim() == '/' || req.url.trim() == '//' || req.url.trim() == '') {
             console.log(chalk.gray(cluster.worker.id + " ") + chalk.blue("warn:") + " working around redirection trap");
             res.writeHead(301, { 'Location': '/index.php' });
             res.end(); 
@@ -42,10 +43,16 @@ module.exports = (req, res, post, files) => {
                                     res.end();
                                     console.log(chalk.gray(cluster.worker.id + " ") + chalk.red("error:") + " while loading file: " + error.message);
                                 } else {
-	                            FileType.fromFile(filename).then((type) => {
-					res.writeHead(200, { 'Content-Type': type + "", 'Content-Size': file.toString().length });
-                                        res.end(file);	                            
-	                            });
+                                    ext = path.extname(filename);
+                                    if (ext === ".css") {
+                                        mimet = "text/css"
+                                    } else if (ext === ".js") { 
+                                        mimet = "application/javascript"
+                                    } else {
+                                        mimet = mime.contentType(ext);
+                                    }
+				    res.writeHead(200, { 'Content-Type': mimet, 'Content-Size': file.toString().length });
+                                    res.end(file);	                            
                                 }
                             })
                         } else {
@@ -88,7 +95,6 @@ module.exports = (req, res, post, files) => {
                                     console.log(phpc.error.stack);
                                     res.write('<html><head><title>' + phpc.error.name + ' - PHP error</title></head><body><h1>' + phpc.error.name + '</h1><p>The PHP integration didn\'t fulfill the request correctly:</p><pre>' + phpc.stderr + '</pre><pre>' + phpc.error.message.split("\n").join("<br>") + '</pre><hr><address>' + config.product.name + ' version ' + version + '</address></body></html>');
                                     res.end();
-                                    core.headClean();
                                 }
                             });
                         }

@@ -6,7 +6,7 @@ module.exports = (filename) => {
     if (fs.existsSync(path.dirname(filename) + "/.htaccess")) {
         try {
             access = fs.readFileSync(path.dirname(filename) + "/.htaccess").toString();
-            if (access.trim().includes("##net.minteckprojects.fns.electrode@DenyAccess##")) {
+            if (access.trim().includes("##net.minteckprojects.fns.electrode@DenyAccess##") || access.trim().includes("Deny from All")) {
                 return false;
             } else {
                 return true;
@@ -20,7 +20,7 @@ module.exports = (filename) => {
         if (fs.existsSync(path.dirname(path.dirname(filename)) + "/.htaccess")) {
             try {
                 access = fs.readFileSync(path.dirname(path.dirname(filename)) + "/.htaccess").toString();
-                if (access.trim().includes("##net.minteckprojects.fns.electrode@DenyAccess##")) {
+                if (access.trim().includes("##net.minteckprojects.fns.electrode@DenyAccess##") || access.trim().includes("Deny from All")) {
                     return false;
                 } else {
                     return true;
@@ -34,7 +34,7 @@ module.exports = (filename) => {
             if (fs.existsSync(path.dirname(path.dirname(path.dirname(filename))) + "/.htaccess")) {
                 try {
                     access = fs.readFileSync(path.dirname(path.dirname(path.dirname(filename))) + "/.htaccess").toString();
-                    if (access.trim().includes("##net.minteckprojects.fns.electrode@DenyAccess##")) {
+                    if (access.trim().includes("##net.minteckprojects.fns.electrode@DenyAccess##") || access.trim().includes("Deny from All")) {
                         return false;
                     } else {
                         return true;

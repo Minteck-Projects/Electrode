@@ -1,7 +1,13 @@
+if (require('os').platform() === "win32") {
+    console.log("Electrode cannot run on Windows. Please use a POSIX-compliant operating system to run an Electrode server.");
+    process.exit(255);
+}
+
 const fs = require('fs');
 const chalk = require('chalk');
 const progress = require('progress');
 global.cluster = require('cluster');
+global.publicDir = __dirname + "/public";
 
 if (require('fs').existsSync("./cache/download.tar")) {
     require('fs').unlinkSync("./cache/download.tar");
